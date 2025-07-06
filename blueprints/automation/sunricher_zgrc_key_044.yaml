@@ -1,0 +1,80 @@
+blueprint:
+  name: Sunricher ZGRC-KEY-044 - Control Smart Plugs
+  description: |
+    Control Zigbee smart plugs using the four scene buttons on the Sunricher ZGRC-KEY-044 remote.
+  domain: automation
+  source_url: https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/blob/main/sunricher_zgrc_key_044.yaml
+  input:
+    remote_device:
+      name: Remote Device
+      description: The Sunricher ZGRC-KEY-044 remote to listen to.
+      selector:
+        device:
+          integration: zha
+    button_1_plug:
+      name: Plug for Button 1
+      description: The smart plug to control with button 1.
+      selector:
+        entity:
+          domain: switch
+    button_2_plug:
+      name: Plug for Button 2
+      description: The smart plug to control with button 2.
+      selector:
+        entity:
+          domain: switch
+    button_3_plug:
+      name: Plug for Button 3
+      description: The smart plug to control with button 3.
+      selector:
+        entity:
+          domain: switch
+    button_4_plug:
+      name: Plug for Button 4
+      description: The smart plug to control with button 4.
+      selector:
+        entity:
+          domain: switch
+
+trigger:
+  - platform: event
+    event_type: zha_event
+
+variables:
+  remote_ieee: "{{ device_attr(remote_device, 'ieee') }}"
+
+condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.device_ieee == remote_ieee }}"
+
+action:
+  - variables:
+      command: "{{ trigger.event.data.command }}"
+      endpoint: "{{ trigger.event.data.endpoint_id }}"
+  - choose:
+      - conditions:
+          - "{{ command == 'press' and endpoint == 1 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_1_plug
+      - conditions:
+          - "{{ command == 'press' and endpoint == 2 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_2_plug
+      - conditions:
+          - "{{ command == 'press' and endpoint == 3 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_3_plug
+      - conditions:
+          - "{{ command == 'press' and endpoint == 4 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_4_plug
+
+mode: restart
