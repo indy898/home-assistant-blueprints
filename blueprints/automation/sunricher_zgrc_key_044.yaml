@@ -9,7 +9,7 @@ blueprint:
   input:
     remote_device:
       name: Remote Device
-      description: The Sunricher ZGRC-KEY-044 remote to listen to.
+      description: The Sunricher ZGRC-KEY-044 remote to listen to (not actively filtered in this version).
       selector:
         device:
           integration: zha
@@ -42,13 +42,8 @@ trigger:
   - platform: event
     event_type: zha_event
 
-variables:
-  remote_ieee: "{{ device_attr(remote_device, 'ieee') }}"
+# 🔥 Removed the device_ieee filtering condition
 
-condition:
-  - condition: template
-    value_template: "true"
-    
 action:
   - variables:
       command: "{{ trigger.event.data.command }}"
