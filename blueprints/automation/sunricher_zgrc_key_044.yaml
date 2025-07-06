@@ -54,25 +54,25 @@ action:
       endpoint: "{{ trigger.event.data.endpoint_id }}"
   - choose:
       - conditions:
-          - "{{ command == 'press' and endpoint == 1 }}"
+          - "{{ command == 'recall' and endpoint == 1 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_1_plug
       - conditions:
-          - "{{ command == 'press' and endpoint == 2 }}"
+          - "{{ command == 'recall' and endpoint == 2 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_2_plug
       - conditions:
-          - "{{ command == 'press' and endpoint == 3 }}"
+          - "{{ command == 'recall' and endpoint == 3 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_3_plug
       - conditions:
-          - "{{ command == 'press' and endpoint == 4 }}"
+          - "{{ command == 'recall' and endpoint == 4 }}"
         sequence:
           - service: switch.toggle
             target:
