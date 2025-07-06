@@ -47,8 +47,8 @@ variables:
 
 condition:
   - condition: template
-    value_template: "{{ trigger.event.data.device_ieee == remote_ieee }}"
-
+    value_template: "true"
+    
 action:
   - variables:
       command: "{{ trigger.event.data.command }}"
