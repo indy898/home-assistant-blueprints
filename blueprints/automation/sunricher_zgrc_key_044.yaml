@@ -3,8 +3,7 @@ blueprint:
   description: |
     Control Zigbee smart plugs using the four scene buttons on the Sunricher ZGRC-KEY-044 remote.
   domain: automation
-  source_url: https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/blob/main/sunricher_zgrc_key_044.yaml
-  input:
+  source_url:source_url: https://raw.githubusercontent.com/indy898/home-assistant-blueprints/main/blueprints/automation/sunricher_zgrc_key_044.yaml 
     remote_device:
       name: Remote Device
       description: The Sunricher ZGRC-KEY-044 remote to listen to.
