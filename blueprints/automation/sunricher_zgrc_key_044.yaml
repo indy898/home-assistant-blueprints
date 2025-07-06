@@ -1,39 +1,58 @@
 blueprint:
-  name: Sunricher ZGRC-KEY-044 - Control Smart Plugs
+  name: Sunricher ZGRC-KEY-044 - Short & Long Press Dual Control
   description: |
-    Control Zigbee smart plugs using the four scene buttons on the Sunricher ZGRC-KEY-044 remote.
-    Matches ZHA events using the `scene_id` parameter from button presses.
+    Control two separate devices per button using short and long presses on the Sunricher ZGRC-KEY-044 remote.
+    Short press toggles one device, long press toggles another.
 
   domain: automation
-  source_url: "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/blueprints/automation/sunricher_zgrc_key_044.yaml"
   input:
     remote_device:
       name: Remote Device
-      description: The Sunricher ZGRC-KEY-044 remote to listen to (not actively filtered in this version).
+      description: The Sunricher ZGRC-KEY-044 remote to listen to.
       selector:
         device:
           integration: zha
+
+    # Devices for short press
     button_1_plug:
-      name: Plug for Button 1
-      description: The smart plug to control with button 1.
+      name: Short Press - Device for Button 1
       selector:
         entity:
           domain: switch
     button_2_plug:
-      name: Plug for Button 2
-      description: The smart plug to control with button 2.
+      name: Short Press - Device for Button 2
       selector:
         entity:
           domain: switch
     button_3_plug:
-      name: Plug for Button 3
-      description: The smart plug to control with button 3.
+      name: Short Press - Device for Button 3
       selector:
         entity:
           domain: switch
     button_4_plug:
-      name: Plug for Button 4
-      description: The smart plug to control with button 4.
+      name: Short Press - Device for Button 4
+      selector:
+        entity:
+          domain: switch
+
+    # Devices for long press
+    button_1_long:
+      name: Long Press - Device for Button 1
+      selector:
+        entity:
+          domain: switch
+    button_2_long:
+      name: Long Press - Device for Button 2
+      selector:
+        entity:
+          domain: switch
+    button_3_long:
+      name: Long Press - Device for Button 3
+      selector:
+        entity:
+          domain: switch
+    button_4_long:
+      name: Long Press - Device for Button 4
       selector:
         entity:
           domain: switch
@@ -42,36 +61,69 @@ trigger:
   - platform: event
     event_type: zha_event
 
-# 🔥 Removed the device_ieee filtering condition
-
 action:
   - variables:
       command: "{{ trigger.event.data.command }}"
       scene_id: "{{ trigger.event.data.params.scene_id }}"
   - choose:
+      # Button 1 - Short Press
       - conditions:
           - "{{ command == 'recall' and scene_id == 1 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_1_plug
+      # Button 1 - Long Press
+      - conditions:
+          - "{{ command == 'store' and scene_id == 1 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_1_long
+
+      # Button 2 - Short Press
       - conditions:
           - "{{ command == 'recall' and scene_id == 2 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_2_plug
+      # Button 2 - Long Press
+      - conditions:
+          - "{{ command == 'store' and scene_id == 2 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_2_long
+
+      # Button 3 - Short Press
       - conditions:
           - "{{ command == 'recall' and scene_id == 3 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_3_plug
+      # Button 3 - Long Press
+      - conditions:
+          - "{{ command == 'store' and scene_id == 3 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_3_long
+
+      # Button 4 - Short Press
       - conditions:
           - "{{ command == 'recall' and scene_id == 4 }}"
         sequence:
           - service: switch.toggle
             target:
               entity_id: !input button_4_plug
+      # Button 4 - Long Press
+      - conditions:
+          - "{{ command == 'store' and scene_id == 4 }}"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input button_4_long
 
 mode: restart
