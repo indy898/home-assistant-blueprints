@@ -12,6 +12,7 @@ blueprint:
       selector:
         device:
           integration: zha
+          multiple: false
 
     # Devices for short press
     button_1_plug:
@@ -19,21 +20,25 @@ blueprint:
       selector:
         entity:
           domain: switch
+          multiple: false
     button_2_plug:
       name: Short Press - Device for Button 2
       selector:
         entity:
           domain: switch
+          multiple: false
     button_3_plug:
       name: Short Press - Device for Button 3
       selector:
         entity:
           domain: switch
+          multiple: false
     button_4_plug:
       name: Short Press - Device for Button 4
       selector:
         entity:
           domain: switch
+          multiple: false
 
     # Devices for long press
     button_1_long:
@@ -41,21 +46,25 @@ blueprint:
       selector:
         entity:
           domain: switch
+          multiple: false
     button_2_long:
       name: Long Press - Device for Button 2
       selector:
         entity:
           domain: switch
+          multiple: false
     button_3_long:
       name: Long Press - Device for Button 3
       selector:
         entity:
           domain: switch
+          multiple: false
     button_4_long:
       name: Long Press - Device for Button 4
       selector:
         entity:
           domain: switch
+          multiple: false
 
 trigger:
   - platform: event
